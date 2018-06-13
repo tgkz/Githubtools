@@ -4,10 +4,13 @@
 # Usage: glinecount <git-dir> [<git-version-tag>]
 #
 #set -x
+if [ $1 = '.' ]; then dir=temp$$
+else dir=$1$$
+cd $dir
+fi
 tag=${2:-HEAD}
-cd $1
-git archive --format=tar --prefix=gitlinecount-$1/ $tag |(cd /tmp/ && tar xf -)
-cd /tmp/gitlinecount-$1
+git archive --format=tar --prefix=gitlinecount-$dir/ $tag |(cd /tmp/ && tar xf -)
+cd /tmp/gitlinecount-$dir
 
 echo -n "Lines "
 # for line with remove unused word "total" in wc -l
